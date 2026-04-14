@@ -155,4 +155,17 @@
     }
   });
 
+  /* ── 8. Scroll-to-top button visibility ── */
+
+  const fabTop = document.querySelector('.fab-top');
+  if (fabTop) {
+    window.addEventListener('scroll', () => {
+      fabTop.classList.toggle('visible', window.scrollY > 320);
+    }, { passive: true });
+
+    fabTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
 })();
