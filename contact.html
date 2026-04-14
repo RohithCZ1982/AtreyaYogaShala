@@ -218,7 +218,7 @@
       if (!form) return;
       // Set _next to the thankyou page on the same origin so formsubmit redirects correctly
       var nextInput = document.getElementById('formNextUrl');
-      if (nextInput) {
+      if (nextInput && (window.location.protocol === 'http:' || window.location.protocol === 'https:')) {
         nextInput.value = window.location.href.replace(/contact\.html.*$/, '') + 'thankyou.html';
       }
       form.addEventListener('submit', function () {
