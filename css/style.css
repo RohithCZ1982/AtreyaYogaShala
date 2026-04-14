@@ -973,9 +973,22 @@ img { max-width: 100%; display: block; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
-  align-items: center;
+  align-items: start;   /* top of image aligns with top of text */
   padding: 4rem 0;
   border-bottom: 1px solid var(--border);
+}
+
+/* Push image down so its top aligns with the h2 heading.
+   Accounts for the section-label (~0.78rem text + 0.6rem gap + 4px underline) */
+.class-detail .class-detail-img {
+  margin-top: 2.2rem;
+}
+
+/* On mobile the layout stacks — remove the offset */
+@media (max-width: 900px) {
+  .class-detail .class-detail-img {
+    margin-top: 0;
+  }
 }
 .class-detail:last-child { border-bottom: none; }
 .class-detail.reverse { direction: rtl; }
