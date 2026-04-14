@@ -49,7 +49,12 @@
 /* ---------- Reset & Base ---------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; font-size: 16px; }
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  overflow-x: hidden;   /* block horizontal scroll at root */
+  max-width: 100%;
+}
 
 body {
   font-family: var(--font-serif);
@@ -57,6 +62,8 @@ body {
   color: var(--text-dark);
   line-height: 1.7;
   overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
 }
 
 a { color: inherit; text-decoration: none; transition: color var(--transition); }
@@ -76,8 +83,11 @@ img { max-width: 100%; display: block; }
   text-align: center;
   font-size: 0.8rem;
   letter-spacing: 0.15em;
-  padding: 0.45rem 1rem;
+  padding: 0.45rem 0;
   font-family: var(--font-display);
+  overflow: hidden;       /* contain the ticker */
+  white-space: nowrap;
+  max-width: 100vw;
 }
 
 /* ---------- Header / Nav ---------- */
@@ -151,6 +161,9 @@ img { max-width: 100%; display: block; }
   color: var(--olive);
   background: rgba(104,111,87,0.10);
 }
+
+/* Hide mobile-only book button on desktop */
+.nav-book-mobile { display: none; }
 
 .btn-book {
   font-family: var(--font-display);
@@ -440,6 +453,32 @@ img { max-width: 100%; display: block; }
   border-radius: 0 0 var(--radius) var(--radius);
 }
 
+/* Card image banner */
+.card-img {
+  width: calc(100% + 3.6rem);
+  margin: -2.2rem -1.8rem 1.5rem;
+  height: 180px;
+  overflow: hidden;
+  border-radius: var(--radius) var(--radius) 0 0;
+  position: relative;
+}
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+.class-card:hover .card-img img { transform: scale(1.07); }
+.card-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(39,44,30,0.35) 100%);
+  pointer-events: none;
+}
+
 .card-icon {
   font-size: 2.4rem;
   margin-bottom: 1rem;
@@ -494,6 +533,19 @@ img { max-width: 100%; display: block; }
   position: relative;
   width: 340px;
   height: 420px;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+.about-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  border-radius: var(--radius);
 }
 
 .about-placeholder {
@@ -522,6 +574,7 @@ img { max-width: 100%; display: block; }
   position: absolute;
   width: 28px;
   height: 28px;
+  z-index: 2;
   border-color: var(--gold);
   border-style: solid;
 }
@@ -929,14 +982,41 @@ img { max-width: 100%; display: block; }
 .class-detail.reverse > * { direction: ltr; }
 
 .class-detail-img {
-  background: linear-gradient(145deg, var(--olive-dark), var(--olive-deep));
-  border-radius: var(--radius);
+  position: relative;
+  border-radius: 8px;
   aspect-ratio: 4/3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 6rem;
-  box-shadow: var(--shadow);
+  overflow: hidden;
+  box-shadow: var(--shadow-deep);
+  background: linear-gradient(145deg, var(--olive-dark), var(--olive-deep));
+  flex-shrink: 0;
+}
+
+.class-detail-img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+.class-detail-img:hover img {
+  transform: scale(1.05);
+}
+
+/* Subtle overlay to keep the image from washing out */
+.class-detail-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 55%,
+    rgba(39,44,30,0.45) 100%
+  );
+  pointer-events: none;
+  border-radius: inherit;
 }
 
 .class-detail-text .section-label { text-align: left; }
@@ -1037,6 +1117,7 @@ table.schedule-table {
   font-family: var(--font-display);
 }
 .badge-hatha    { background: rgba(221,186,148,0.20); color: var(--warm-brown); }
+.badge-ashtanga { background: rgba(180,100,60,0.14);  color: #A0522D; }
 .badge-kids     { background: rgba(104,111,87,0.15);  color: var(--olive); }
 .badge-prenatal { background: rgba(163,165,118,0.18); color: var(--sage); }
 
@@ -1255,6 +1336,19 @@ table.schedule-table {
   font-style: italic;
 }
 
+/* ---------- Global overflow containment ---------- */
+section,
+header,
+footer,
+.site-header,
+.site-footer,
+.cta-banner,
+.page-hero,
+.ornament-divider {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
 /* ============================================================
    RESPONSIVE
    ============================================================ */
@@ -1276,7 +1370,7 @@ table.schedule-table {
   .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
 
   .about-photo-wrap { position: static; display: flex; justify-content: center; }
-  .about-frame { width: 260px; height: 320px; }
+  .about-frame { width: 100%; max-width: 340px; height: 380px; }
 
   .class-detail,
   .class-detail.reverse { grid-template-columns: 1fr; direction: ltr; }
@@ -1287,23 +1381,103 @@ table.schedule-table {
   .form-row { grid-template-columns: 1fr; }
 }
 
+/* ---------- Hamburger menu ---------- */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: auto;
+  flex-shrink: 0;
+  z-index: 200;
+}
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2.5px;
+  background: var(--olive-dark);
+  border-radius: 2px;
+  transition: transform 0.35s cubic-bezier(0.22,1,0.36,1),
+              opacity 0.25s ease,
+              width 0.3s ease;
+  transform-origin: center;
+}
+/* Open state — animate to X */
+.hamburger.open span:nth-child(1) { transform: translateY(8.75px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-8.75px) rotate(-45deg); }
+
+/* Mobile nav drawer */
+@media (max-width: 600px) {
+  .hamburger { display: flex; }
+
+  .btn-book { display: none; }  /* shown inside drawer instead */
+
+  .main-nav {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--olive-deep);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-left: 0;
+    z-index: 150;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .main-nav.nav-open {
+    display: flex;
+    opacity: 1;
+  }
+  .main-nav a {
+    font-size: 1.3rem;
+    padding: 1rem 2rem;
+    color: rgba(233,228,221,0.85);
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid rgba(221,186,148,0.10);
+    letter-spacing: 0.12em;
+  }
+  .main-nav a:hover,
+  .main-nav a.active {
+    color: var(--tan-light);
+    background: rgba(221,186,148,0.07);
+  }
+  .main-nav a::after { display: none; } /* hide underline anim on mobile */
+
+  /* Book button inside drawer */
+  .nav-book-mobile {
+    display: block;
+    margin-top: 1.5rem;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--tan);
+    color: var(--olive-deep);
+    padding: 0.8rem 2.5rem;
+    border-radius: var(--radius);
+    border: 2px solid var(--tan);
+    text-decoration: none;
+    transition: background 0.25s ease;
+  }
+  .nav-book-mobile:hover { background: var(--tan-light); }
+}
+
 @media (max-width: 600px) {
   /* Header */
   .header-inner {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 0.6rem;
     padding: 0.7rem 1rem;
   }
-  .main-nav {
-    order: 3;
-    width: 100%;
-    flex-wrap: wrap;
-    margin-left: 0;
-    gap: 0;
-    justify-content: center;
-  }
-  .main-nav a { font-size: 0.78rem; padding: 0.35rem 0.6rem; }
-  .btn-book { order: 2; font-size: 0.76rem; padding: 0.45rem 1rem; }
   .logo-main { font-size: 1.05rem; }
   .om-symbol { font-size: 2rem; }
   .hero::before { display: none; }
@@ -1334,13 +1508,13 @@ table.schedule-table {
   .testimonials-grid { grid-template-columns: 1fr; }
 
   /* About */
-  .about-frame { width: 220px; height: 270px; }
+  .about-frame { width: 100%; max-width: 300px; height: 340px; }
   .about-credentials { padding: 1.2rem; }
   .values-grid { grid-template-columns: 1fr; gap: 0.8rem; }
 
   /* Classes page */
   .class-detail { gap: 2rem; padding: 2.5rem 0; }
-  .class-detail-img { font-size: 4rem; }
+  .class-detail-img { aspect-ratio: 16/9; }
 
   /* Schedule */
   .schedule-table { font-size: 0.82rem; }

@@ -66,6 +66,17 @@
   tagReveal('.about-photo-wrap', 'from-left');
   tagReveal('.about-credentials','from-up');
 
+  // Safety: force-reveal anything already in the viewport after a short delay
+  // (catches elements above the fold that IntersectionObserver may miss)
+  setTimeout(() => {
+    document.querySelectorAll('.reveal').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        el.classList.add('revealed');
+      }
+    });
+  }, 200);
+
   // Class detail blocks
   document.querySelectorAll('.class-detail').forEach((el, i) => {
     const imgEl  = el.querySelector('.class-detail-img');
@@ -155,7 +166,42 @@
     }
   });
 
-  /* ── 8. Scroll-to-top button visibility ── */
+  /* ── 8. Hamburger menu ── */
+
+  const hamburger = document.querySelector('.hamburger');
+  const mainNav   = document.querySelector('.main-nav');
+
+  if (hamburger && mainNav) {
+    hamburger.addEventListener('click', () => {
+      const isOpen = mainNav.classList.toggle('nav-open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+      // Prevent body scroll while drawer is open
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    // Close on nav link click
+    mainNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mainNav.classList.remove('nav-open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && mainNav.classList.contains('nav-open')) {
+        mainNav.classList.remove('nav-open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+
+  /* ── 9. Scroll-to-top ── */
 
   const fabTop = document.querySelector('.fab-top');
   if (fabTop) {
