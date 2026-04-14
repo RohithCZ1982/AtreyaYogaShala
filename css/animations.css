@@ -1,0 +1,382 @@
+/* ============================================================
+   ATREYA YOGA SHALA — Animations
+   ============================================================ */
+
+/* ── Keyframes ────────────────────────────────────────────── */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Lotus blooms open with a slight overshoot */
+@keyframes lotusBlossom {
+  0%   { opacity: 0; transform: scale(0.1) rotate(-200deg); }
+  70%  { opacity: 1; transform: scale(1.08) rotate(5deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+/* Petals open one by one */
+@keyframes petalOpen {
+  from { opacity: 0; transform-origin: bottom center; transform: scaleY(0.05); }
+  to   { opacity: 1; transform-origin: bottom center; transform: scaleY(1); }
+}
+
+/* OM symbol gentle pulse glow */
+@keyframes omPulse {
+  0%, 100% {
+    text-shadow: 0 0 8px  rgba(221,186,148,0.35);
+  }
+  50% {
+    text-shadow: 0 0 28px rgba(221,186,148,0.75), 0 0 60px rgba(221,186,148,0.25);
+  }
+}
+
+/* Lotus center breathes */
+@keyframes breathe {
+  0%, 100% { transform: translate(-50%, -50%) scale(1);   box-shadow: 0 0 24px rgba(221,186,148,0.45), 0 0 50px rgba(221,186,148,0.18); }
+  50%       { transform: translate(-50%, -50%) scale(1.10); box-shadow: 0 0 40px rgba(221,186,148,0.70), 0 0 80px rgba(221,186,148,0.30); }
+}
+
+/* Hero lotus floats gently */
+@keyframes floatY {
+  0%, 100% { transform: translateY(0px);   }
+  50%       { transform: translateY(-14px); }
+}
+
+/* Page-hero OM decoration rotates slowly */
+@keyframes rotateSlow {
+  from { transform: translateX(-50%) rotate(0deg);   }
+  to   { transform: translateX(-50%) rotate(360deg); }
+}
+
+/* Sanskrit shimmer sweep */
+@keyframes shimmerText {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+/* Ornament divider draws in */
+@keyframes expandWidth {
+  from { width: 0; opacity: 0; }
+  to   { width: 100%; opacity: 1; }
+}
+
+/* Card border glow on hover */
+@keyframes borderGlow {
+  0%, 100% { box-shadow: 0 4px 24px rgba(40,44,30,0.12); }
+  50%       { box-shadow: 0 8px 32px rgba(104,111,87,0.22); }
+}
+
+/* Top bar ticker */
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Underline draw for section labels */
+@keyframes drawUnderline {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* Shimmer for pricing highlight */
+@keyframes cardShimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+
+/* Ripple effect for buttons */
+@keyframes ripple {
+  0%   { transform: scale(0); opacity: 0.5; }
+  100% { transform: scale(4); opacity: 0; }
+}
+
+/* ── Hero — staggered entrance ───────────────────────────── */
+
+.hero-content .hero-sanskrit   { animation: fadeUp 0.7s ease 0.15s both; }
+.hero-content .hero-translation { animation: fadeUp 0.7s ease 0.28s both; }
+.hero-content .hero-source      { animation: fadeUp 0.7s ease 0.38s both; }
+.hero-content .hero-title       { animation: fadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 0.52s both; }
+.hero-content .hero-desc        { animation: fadeUp 0.8s ease 0.72s both; }
+.hero-content .hero-actions     { animation: fadeUp 0.8s ease 0.90s both; }
+
+/* Hero lotus blooms after content */
+.hero-lotus .lotus {
+  animation: lotusBlossom 1.6s cubic-bezier(0.34, 1.46, 0.64, 1) 0.6s both;
+}
+
+/* Once visible, lotus floats */
+.hero-lotus {
+  animation: floatY 6s ease-in-out 2.4s infinite;
+}
+
+/* ── OM Symbol ───────────────────────────────────────────── */
+
+.om-symbol {
+  animation: omPulse 3.5s ease-in-out infinite;
+}
+
+/* ── Lotus Centre ────────────────────────────────────────── */
+
+.lotus-center {
+  animation: breathe 5s ease-in-out infinite !important;
+}
+
+/* ── Sanskrit shimmer text ───────────────────────────────── */
+
+.hero-sanskrit {
+  background: linear-gradient(
+    100deg,
+    var(--tan-light) 20%,
+    #fff 50%,
+    var(--tan-light) 80%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fadeUp 0.7s ease 0.15s both,
+             shimmerText 4s linear 1.5s infinite;
+}
+
+/* ── Page Hero OM deco rotates ───────────────────────────── */
+
+.page-hero .om-deco {
+  animation: rotateSlow 60s linear infinite;
+}
+
+/* ── Section label underline ─────────────────────────────── */
+
+.section-label {
+  position: relative;
+  display: inline-block;
+}
+.section-label::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: var(--tan);
+  margin-top: 4px;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+/* triggered by JS .revealed or on section that's always visible */
+.section-label.label-visible::after,
+.revealed .section-label::after {
+  transform: scaleX(1);
+}
+
+/* Centred labels need centred origin */
+.section-title + .section-label::after,
+p.section-label::after {
+  transform-origin: center center;
+}
+
+/* ── Header entrance ─────────────────────────────────────── */
+
+.site-header {
+  animation: fadeIn 0.5s ease both;
+}
+.logo {
+  animation: fadeLeft 0.6s cubic-bezier(0.22,1,0.36,1) 0.1s both;
+}
+.main-nav {
+  animation: fadeIn 0.7s ease 0.3s both;
+}
+.btn-book {
+  animation: fadeRight 0.6s cubic-bezier(0.22,1,0.36,1) 0.2s both;
+}
+
+/* ── Topbar ticker ───────────────────────────────────────── */
+
+.topbar-inner {
+  display: inline-block;
+  white-space: nowrap;
+  animation: tickerScroll 20s linear infinite;
+}
+
+/* ── Button ripple ───────────────────────────────────────── */
+
+.btn-primary,
+.btn-book {
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::after,
+.btn-book::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 10px; height: 10px;
+  background: rgba(255,255,255,0.35);
+  border-radius: 50%;
+  transform: scale(0);
+  margin-top: -5px;
+  margin-left: -5px;
+  pointer-events: none;
+}
+.btn-primary:active::after,
+.btn-book:active::after {
+  animation: ripple 0.5s ease-out;
+}
+
+/* ── Scroll Reveal base states ───────────────────────────── */
+
+.reveal {
+  opacity: 0;
+  transition: opacity 0.75s ease, transform 0.75s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal.from-up    { transform: translateY(40px); }
+.reveal.from-left  { transform: translateX(-40px); }
+.reveal.from-right { transform: translateX(40px); }
+.reveal.from-scale { transform: scale(0.9); }
+
+.reveal.revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* Stagger siblings that share a parent .stagger-children */
+.stagger-children .reveal:nth-child(1) { transition-delay: 0.05s; }
+.stagger-children .reveal:nth-child(2) { transition-delay: 0.18s; }
+.stagger-children .reveal:nth-child(3) { transition-delay: 0.31s; }
+.stagger-children .reveal:nth-child(4) { transition-delay: 0.44s; }
+
+/* ── Card hover enhancement ──────────────────────────────── */
+
+.class-card {
+  transition: box-shadow 0.35s ease, transform 0.35s ease,
+              border-top-color 0.35s ease;
+}
+.class-card:hover {
+  border-top-color: var(--sage) !important;
+}
+
+.price-card {
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
+}
+
+.testimonial {
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.testimonial:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(40,44,30,0.18);
+}
+
+/* ── Nav link underline slide ────────────────────────────── */
+
+.main-nav a {
+  position: relative;
+}
+.main-nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 2px; left: 50%; right: 50%;
+  height: 2px;
+  background: var(--tan);
+  border-radius: 1px;
+  transition: left 0.3s ease, right 0.3s ease;
+}
+.main-nav a:hover::after,
+.main-nav a.active::after {
+  left: 0.6rem;
+  right: 0.6rem;
+}
+
+/* ── Footer brand fadeIn ─────────────────────────────────── */
+
+.site-footer .om-symbol {
+  animation: omPulse 4s ease-in-out infinite;
+}
+
+/* ── Ornament divider lines draw in ─────────────────────── */
+
+.ornament-divider {
+  overflow: hidden;
+}
+.ornament-divider span {
+  display: inline-block;
+  animation: fadeIn 1s ease both;
+}
+
+/* ── Pillar numbers count-up feel ────────────────────────── */
+
+.pillar.revealed .pillar-num {
+  animation: scaleIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+
+/* ── Frame corners animate in ────────────────────────────── */
+
+.about-frame.revealed .frame-corner {
+  transition: width 0.6s ease, height 0.6s ease, opacity 0.6s ease;
+}
+
+/* ── Highlighted price card shimmer ─────────────────────── */
+
+.price-card.highlighted::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(221,186,148,0.18) 50%,
+    transparent 60%
+  );
+  background-size: 400px 100%;
+  border-radius: inherit;
+  animation: cardShimmer 3.5s linear infinite;
+  pointer-events: none;
+}
+
+/* ── Schedule table rows stagger ─────────────────────────── */
+
+.schedule-table tbody tr {
+  animation: fadeIn 0.4s ease both;
+}
+.schedule-table tbody tr:nth-child(1)  { animation-delay: 0.05s; }
+.schedule-table tbody tr:nth-child(2)  { animation-delay: 0.10s; }
+.schedule-table tbody tr:nth-child(3)  { animation-delay: 0.15s; }
+.schedule-table tbody tr:nth-child(4)  { animation-delay: 0.20s; }
+.schedule-table tbody tr:nth-child(5)  { animation-delay: 0.25s; }
+.schedule-table tbody tr:nth-child(6)  { animation-delay: 0.30s; }
+.schedule-table tbody tr:nth-child(7)  { animation-delay: 0.35s; }
+.schedule-table tbody tr:nth-child(8)  { animation-delay: 0.40s; }
+.schedule-table tbody tr:nth-child(9)  { animation-delay: 0.45s; }
+.schedule-table tbody tr:nth-child(10) { animation-delay: 0.50s; }
+.schedule-table tbody tr:nth-child(11) { animation-delay: 0.55s; }
+.schedule-table tbody tr:nth-child(12) { animation-delay: 0.60s; }
+
+/* ── Respect reduced motion ──────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:   0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration:  0.01ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
